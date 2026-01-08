@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import styles from "@/components/shell.module.css";
 import {
   HeartIcon,
@@ -10,9 +11,9 @@ import {
   ClientsIcon,
   ClipboardIcon,
   ListIcon,
-  LogoutIcon,
+  AdminShieldIcon,
 } from "@/components/icons";
-import LogoutNavButton from "@/components/LogoutNavButton";
+import { supabase } from "@/app/lib/supabaseClient";
 
 const NAV = [
   { href: "/home", label: "Dashboard", icon: HomeIcon },
@@ -24,19 +25,54 @@ const NAV = [
 
 export default function SidebarNav() {
   const path = usePathname();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+
+    async function loadRole() {
+      try {
+        const { data: auth } = await supabase.auth.getUser();
+        const userId = auth.user?.id;
+
+        if (!userId) {
+          if (alive) setIsAdmin(false);
+          return;
+        }
+
+        const { data: profile, error } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", userId)
+          .single();
+
+        if (error) {
+          if (alive) setIsAdmin(false);
+          return;
+        }
+
+        if (alive) setIsAdmin(profile?.role === "admin");
+      } catch {
+        if (alive) setIsAdmin(false);
+      }
+    }
+
+    loadRole();
+
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   return (
     <>
-      {/* App mark */}
       <div className={styles.brandDot} title="CareFull IQ">
         <HeartIcon width={26} height={26} />
       </div>
 
-      {/* Primary navigation */}
       {NAV.map((n) => {
         const active = path === n.href;
         const Icon = n.icon;
-
         return (
           <Link
             key={n.href}
@@ -50,13 +86,20 @@ export default function SidebarNav() {
         );
       })}
 
-      {/* Logout (directly under Daily Logs) */}
-      <LogoutNavButton />
+      {/* Admin-only: User Management */}
+      {isAdmin && (
+        <Link
+          href="/admin/users"
+          className={`${styles.navbtn} ${path === "/admin/users" ? styles.navbtnActive : ""}`}
+          aria-label="Admin Users"
+          title="Admin Users"
+        >
+          <AdminShieldIcon width={22} height={22} />
+        </Link>
+      )}
 
-      {/* Spacer pushes utility buttons to bottom */}
       <div style={{ flex: 1 }} />
 
-      {/* Scroll to top */}
       <a
         href="#top"
         className={styles.navbtn}
@@ -67,14 +110,7 @@ export default function SidebarNav() {
           window.scrollTo({ top: 0, behavior: "smooth" });
         }}
       >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
+        <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 19V5" />
           <path d="M5 12l7-7 7 7" />
         </svg>
