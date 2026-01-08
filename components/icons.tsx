@@ -94,5 +94,13 @@ export function LogoutIcon({ width = 22, height = 22, ...props }: React.SVGProps
     </svg>
   );
 }
+export function AdminShieldIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" />
+      <path d="M9 12l2 2 4-4" />
+    </svg>
+  );
+}
 
 
