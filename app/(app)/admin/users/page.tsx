@@ -1,5 +1,5 @@
 "use client";
-
+import { RequireAdmin } from "@/app/components/RequireAdmin";
 import { useState } from "react";
 import { supabase } from "@/app/lib/supabaseClient"; // adjust to your actual path
 import Link from "next/link";
@@ -86,3 +86,5 @@ export default function AdminUsersPage() {
     </div>
   );
 }
+return <RequireAdmin>...</RequireAdmin>;
+
