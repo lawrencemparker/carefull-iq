@@ -1,3 +1,22 @@
+:root {
+  --cf-text: #0f172a;
+  --cf-muted: #64748b;
+
+  --cf-card: rgba(255, 255, 255, 0.72);
+  --cf-card-border: rgba(15, 23, 42, 0.10);
+  --cf-card-shadow: 0 14px 34px rgba(15, 23, 42, 0.10);
+}
+
+body[data-theme="dark"] {
+  --cf-text: #e5e7eb;
+  --cf-muted: #a1a1aa;
+
+  --cf-card: rgba(17, 24, 39, 0.72);            /* dark glass */
+  --cf-card-border: rgba(255, 255, 255, 0.12);
+  --cf-card-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+}
+
+
 :root{
   --bg0:#eaf3ff;
   --bg1:#eef7ff;
