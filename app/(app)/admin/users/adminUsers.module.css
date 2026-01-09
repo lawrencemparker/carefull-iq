@@ -1,0 +1,83 @@
+/* Match Manage Caregivers section button + row styling */
+
+/* Top-right "Refresh" button should match your secondary button style */
+.refreshBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-weight: 900;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: rgba(255, 255, 255, 0.85);
+  color: #0f172a;
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.10);
+  cursor: pointer;
+}
+
+.refreshBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Each admin row should match the caregiver row card look */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 18px;
+  background: rgba(17, 24, 39, 0.55); /* matches your dark card tone */
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.18);
+}
+
+/* Title/meta match your caregiver styling */
+.rowTitle {
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.rowMeta {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+/* Action buttons should match Manage Caregivers */
+.actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* "Edit" button = same as your dark secondary button */
+.editBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-weight: 900;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(15, 23, 42, 0.35);
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.18);
+  cursor: pointer;
+}
+
+/* "Reset Password" button = red like Delete */
+.dangerBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-weight: 900;
+  border: 1px solid rgba(220, 38, 38, 0.45);
+  background: linear-gradient(135deg, #dc2626, #f87171);
+  color: white;
+  box-shadow: 0 16px 30px rgba(220, 38, 38, 0.20);
+  cursor: pointer;
+}
