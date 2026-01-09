@@ -1,4 +1,6 @@
 "use client";
+import styles from "./adminUsers.module.css";
+
 
 import { RequireAdmin } from "@/app/components/RequireAdmin";
 import { supabase } from "@/app/lib/supabaseClient";
@@ -164,125 +166,76 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <RequireAdmin>
-      <div style={{ padding: 24, maxWidth: 880 }}>
-        <h1 style={{ margin: 0, fontWeight: 900 }}>User Management</h1>
-        <p style={{ color: "#64748b", marginTop: 8 }}>
-          Add and manage admins without using the Supabase dashboard.
-        </p>
+  <RequireAdmin>
+    <div className={styles.page}>
+      <h1 style={{ margin: 0, fontWeight: 900 }}>User Management</h1>
+      <p className={styles.subtitle}>
+        Add and manage admins without using the Supabase dashboard.
+      </p>
 
-        {/* Create Admin */}
-        <section style={card()}>
-          <h2 style={{ margin: 0, fontWeight: 900 }}>Add Admin</h2>
-          <div style={{ display: "grid", gap: 10, marginTop: 14 }}>
-            <label style={label()}>Full name</label>
-            <input value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Jane Admin" />
+      {/* Add Admin */}
+      <section className={styles.panel}>
+        <h2 className={styles.panelTitle}>Add Admin</h2>
 
-            <label style={label()}>Email</label>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@example.com" />
+        <div className={styles.formGrid}>
+          <label className={styles.label}>Full name</label>
+          <input
+            className={styles.input}
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+            placeholder="Jane Admin"
+          />
 
-            <label style={label()}>Temporary password (optional)</label>
-            <input
-              value={tempPassword}
-              onChange={(e) => setTempPassword(e.target.value)}
-              placeholder="Optional"
-            />
+          <label className={styles.label}>Email</label>
+          <input
+            className={styles.input}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="jane@example.com"
+          />
 
-            <button disabled={busy} onClick={createAdmin} style={primaryBtn()}>
-              {busy ? "Creating..." : "Create Admin"}
-            </button>
+          <label className={styles.label}>Temporary password (optional)</label>
+          <input
+            className={styles.input}
+            value={tempPassword}
+            onChange={(e) => setTempPassword(e.target.value)}
+            placeholder="Optional"
+          />
 
-            {status && <div style={{ marginTop: 6, fontWeight: 700 }}>{status}</div>}
-          </div>
-        </section>
-
-        {/* Manage Admins */}
-        <section style={{ ...card(), marginTop: 14 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-            <div>
-              <h2 style={{ margin: 0, fontWeight: 900 }}>Manage Admins</h2>
-              <p style={{ margin: "6px 0 0", color: "#64748b" }}>
-                Edit admin details and send password reset emails.
-              </p>
-            </div>
-
-            <button onClick={refreshAdmins} disabled={loadingAdmins} style={secondaryBtn()}>
-              {loadingAdmins ? "Refreshing..." : "Refresh"}
-            </button>
-          </div>
-
-          {adminStatus && <div style={{ marginTop: 10, fontWeight: 700 }}>{adminStatus}</div>}
-
-          <div style={{ display: "grid", gap: 10, marginTop: 14 }}>
-            {admins.map((a) => (
-              <div key={a.user_id} style={rowCard()}>
-                <div style={{ minWidth: 0 }}>
-                  <div style={{ fontWeight: 900, fontSize: 16, color: "#0f172a" }}>
-                    {a.full_name || "Unnamed Admin"}
-                  </div>
-                  <div style={{ color: "#64748b", fontSize: 13, marginTop: 2 }}>
-                    {a.email || "No email"} • {a.is_active ? "Active" : "Inactive"}
-                  </div>
-                </div>
-
-                <div style={{ display: "flex", gap: 10 }}>
-                  <button onClick={() => openEdit(a)} style={secondaryBtn()}>
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => resetPassword(a.email)}
-                    style={dangerBtn()}
-                    title="Send a password reset email"
-                  >
-                    Reset Password
-                  </button>
-                </div>
-              </div>
-            ))}
-
-            {!loadingAdmins && admins.length === 0 && (
-              <div style={{ color: "#64748b", marginTop: 6 }}>No admins found.</div>
-            )}
-          </div>
-        </section>
-
-        {/* Edit modal (simple inline panel) */}
-        {editing && (
-          <section style={{ ...card(), marginTop: 14 }}>
-            <h2 style={{ margin: 0, fontWeight: 900 }}>Edit Admin</h2>
-            <p style={{ margin: "6px 0 0", color: "#64748b" }}>
-              Updating: <b>{editing.email || editing.user_id}</b>
-            </p>
-
-            <div style={{ display: "grid", gap: 10, marginTop: 14 }}>
-              <label style={label()}>Full name</label>
-              <input value={editName} onChange={(e) => setEditName(e.target.value)} />
-
-              <label style={label()}>Active</label>
-              <select value={editActive ? "true" : "false"} onChange={(e) => setEditActive(e.target.value === "true")}>
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-              </select>
-
-              <div style={{ display: "flex", gap: 10, marginTop: 6 }}>
-                <button onClick={saveEdit} style={primaryBtn()}>
-                  Save
-                </button>
-                <button onClick={() => setEditing(null)} style={secondaryBtn()}>
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </section>
-        )}
-
-        <div style={{ marginTop: 18 }}>
-          <Link href="/home">← Back to Dashboard</Link>
+          <button disabled={busy} onClick={createAdmin} style={{ marginTop: 8 }}>
+            {busy ? "Creating..." : "Create Admin"}
+          </button>
         </div>
-      </div>
-    </RequireAdmin>
-  );
-}
+      </section>
+
+      {/* Manage Admins */}
+      <section className={styles.panel}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h2 className={styles.panelTitle}>Manage Admins</h2>
+          <button onClick={loadAdmins}>Refresh</button>
+        </div>
+
+        <p className={styles.muted}>Edit admin details and send password reset emails.</p>
+
+        {admins.map((a) => (
+          <div key={a.user_id} className={styles.row}>
+            <div>
+              <div className={styles.rowTitle}>{a.full_name}</div>
+              <div className={styles.rowMeta}>{a.email} • Active</div>
+            </div>
+
+            <div className={styles.actions}>
+              <button>Edit</button>
+              <button className={styles.danger} onClick={() => resetPassword(a.email)}>
+                Reset Password
+              </button>
+            </div>
+          </div>
+        ))}
+      </section>
+    </div>
+  </RequireAdmin>
+);
 
 /* --- Styles (matches your current vibe) --- */
 
