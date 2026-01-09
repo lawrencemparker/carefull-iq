@@ -1,31 +1,22 @@
-"use client";
-
 import { RequireAuth } from "../../components/RequireAuth";
 import Link from "next/link";
+import React from "react";
 
 export default function HomePage() {
   return (
     <RequireAuth>
       <div style={{ padding: 24, maxWidth: 900 }}>
-        {/* Welcome back */}
-        <section
-          style={{
-            background: "rgba(255,255,255,0.72)",
-            border: "1px solid rgba(255,255,255,0.65)",
-            borderRadius: 22,
-            padding: 18,
-            boxShadow: "0 14px 34px rgba(15,23,42,0.10)",
-          }}
-        >
-          <p style={{ margin: 0, color: "#475569", fontWeight: 700, fontSize: 14 }}>
+        {/* Quick actions */}
+        <section style={card()}>
+          <p style={{ margin: 0, color: "var(--cf-muted)", fontWeight: 700, fontSize: 14 }}>
             Quick actions
           </p>
 
-          <h2 style={{ margin: "6px 0 0", fontSize: 18, fontWeight: 900 }}>
+          <h2 style={{ margin: "6px 0 0", fontSize: 18, fontWeight: 900, color: "var(--cf-text)" }}>
             Welcome back
           </h2>
 
-          <p style={{ margin: "8px 0 0", color: "#64748b", maxWidth: 560 }}>
+          <p style={{ margin: "8px 0 0", color: "var(--cf-muted)", maxWidth: 560 }}>
             Onboard clients and caregivers, then document daily care in seconds.
           </p>
 
@@ -46,25 +37,16 @@ export default function HomePage() {
         </section>
 
         {/* App Features */}
-        <section
-          style={{
-            marginTop: 16,
-            background: "rgba(255,255,255,0.72)",
-            border: "1px solid rgba(255,255,255,0.65)",
-            borderRadius: 22,
-            padding: 18,
-            boxShadow: "0 14px 34px rgba(15,23,42,0.10)",
-          }}
-        >
-          <p style={{ margin: 0, color: "#475569", fontWeight: 700, fontSize: 14 }}>
+        <section style={{ ...card(), marginTop: 16 }}>
+          <p style={{ margin: 0, color: "var(--cf-muted)", fontWeight: 700, fontSize: 14 }}>
             App Features
           </p>
 
-          <h2 style={{ margin: "8px 0 10px", fontSize: 20, fontWeight: 900 }}>
+          <h2 style={{ margin: "8px 0 10px", fontSize: 20, fontWeight: 900, color: "var(--cf-text)" }}>
             High-level overview
           </h2>
 
-          <ul style={{ margin: 0, paddingLeft: 18, color: "#475569", lineHeight: 1.7 }}>
+          <ul style={{ margin: 0, paddingLeft: 18, color: "var(--cf-text)", lineHeight: 1.7 }}>
             <li>
               <b>Caregiver login</b> (Supabase) to protect data integrity.
             </li>
@@ -81,13 +63,23 @@ export default function HomePage() {
               <b>Edit logs anytime</b>: open a log and update later as needed.
             </li>
             <li>
-              <b>Mobile-first UX</b>: responsive layout with mobile optimization.
+              <b>Mobile-first UX</b>: responsive layout with bottom nav and sticky primary action.
             </li>
           </ul>
         </section>
       </div>
     </RequireAuth>
   );
+}
+
+function card(): React.CSSProperties {
+  return {
+    background: "var(--cf-card)",
+    border: "1px solid var(--cf-card-border)",
+    borderRadius: 22,
+    padding: 18,
+    boxShadow: "var(--cf-card-shadow)",
+  };
 }
 
 function btn(): React.CSSProperties {
@@ -114,7 +106,7 @@ function btnSecondary(): React.CSSProperties {
     borderRadius: 14,
     fontWeight: 800,
     textDecoration: "none",
-    color: "#0f172a",
+    color: "var(--cf-text)",
     background: "rgba(255,255,255,0.70)",
     border: "1px solid rgba(15,23,42,0.10)",
     boxShadow: "0 14px 24px rgba(15,23,42,0.10)",
