@@ -261,9 +261,14 @@ export default function AdminUsersPage() {
             <h2 className={styles.panelTitle} style={{ margin: 0 }}>
               Manage Admins
             </h2>
-            <button onClick={refreshAdmins} disabled={loadingAdmins}>
-              {loadingAdmins ? "Refreshing..." : "Refresh"}
-            </button>
+           <button
+  className={styles.refreshBtn}
+  onClick={refreshAdmins}
+  disabled={loadingAdmins}
+>
+  {loadingAdmins ? "Refreshing..." : "Refresh"}
+</button>
+
           </div>
 
           <p className={styles.muted}>Edit admin details and send password reset emails.</p>
