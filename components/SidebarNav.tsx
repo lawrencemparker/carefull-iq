@@ -4,8 +4,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "@/components/shell.module.css";
-import { HeartIcon, HomeIcon, CaregiversIcon, ClientsIcon, ClipboardIcon, ListIcon } from "@/components/icons";
-import { supabase } from "@/app/lib/supabaseClient";
+import {
+  HeartIcon,
+  HomeIcon,
+  CaregiversIcon,
+  ClientsIcon,
+  ClipboardIcon,
+  ListIcon,
+} from "@/components/icons";
+import { supabase } from "@/app/lib/supabaseClient"; // <-- adjust ONLY if your supabaseClient is elsewhere
+
+type ProfileRow = {
+  user_id: string;
+  family_id: string;
+  role: string;
+  is_active: boolean;
+};
 
 const NAV = [
   { href: "/home", label: "Dashboard", icon: HomeIcon },
@@ -15,11 +29,13 @@ const NAV = [
   { href: "/logs", label: "Daily Logs", icon: ListIcon },
 ];
 
-function AdminShieldIcon({ width = 22, height = 22 }: { width?: number; height?: number }) {
+function ShieldIcon(props: { width?: number; height?: number }) {
+  const w = props.width ?? 22;
+  const h = props.height ?? 22;
   return (
     <svg
-      width={width}
-      height={height}
+      width={w}
+      height={h}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -41,26 +57,30 @@ export default function SidebarNav() {
   useEffect(() => {
     let alive = true;
 
-    async function loadAdminFlag() {
-      try {
-        // Use the same "current_profile" function your RLS policies depend on.
-        // This avoids client-side selects on profiles.role that RLS often blocks.
-        const { data, error } = await supabase.rpc("current_profile");
-
-        if (!alive) return;
-
-        if (error || !data) {
-          setIsAdmin(false);
-          return;
-        }
-
-        setIsAdmin(data.role === "admin");
-      } catch {
+    async function loadRole() {
+      // Only try if a session exists
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session) {
         if (alive) setIsAdmin(false);
+        return;
       }
+
+      const { data, error } = await supabase.rpc("current_profile");
+
+      if (!alive) return;
+
+      if (error) {
+        // If you want, you can console.log(error) while debugging:
+        // console.log("current_profile error:", error);
+        setIsAdmin(false);
+        return;
+      }
+
+      const row = (Array.isArray(data) ? data[0] : null) as ProfileRow | null;
+      setIsAdmin(!!row && row.role === "admin" && row.is_active === true);
     }
 
-    loadAdminFlag();
+    loadRole();
 
     return () => {
       alive = false;
@@ -89,7 +109,7 @@ export default function SidebarNav() {
         );
       })}
 
-      {/* Admin-only: User Management */}
+      {/* Admin-only sidebar link */}
       {isAdmin && (
         <Link
           href="/admin/users"
@@ -97,7 +117,7 @@ export default function SidebarNav() {
           aria-label="Admin Users"
           title="Admin Users"
         >
-          <AdminShieldIcon width={22} height={22} />
+          <ShieldIcon width={22} height={22} />
         </Link>
       )}
 
