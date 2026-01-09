@@ -325,10 +325,13 @@ export default function AdminUsersPage() {
                         </>
                       ) : (
                         <>
-                          <button onClick={() => openEdit(a)}>Edit</button>
-                          <button className={styles.danger} onClick={() => resetPassword(a.email)}>
-                            Reset Password
-                          </button>
+                          <button className={styles.editBtn} onClick={() => openEdit(a)}>
+  Edit
+</button>
+                          
+                          <button className={styles.dangerBtn} onClick={() => resetPassword(a.email)}>
+  Reset Password
+</button>
                         </>
                       )}
                     </div>
