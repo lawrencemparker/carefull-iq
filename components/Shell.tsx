@@ -2,8 +2,11 @@ import React from "react";
 import styles from "@/components/shell.module.css";
 import SidebarNav from "@/components/SidebarNav";
 import Topbar from "@/components/Topbar";
+<<<<<<< HEAD
 import LogoutButton from "@/app/components/LogoutButton";
 
+=======
+>>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
 
 export default function Shell({
   children,

@@ -2,9 +2,14 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+<<<<<<< HEAD
 import { useEffect, useMemo, useState } from "react";
 import styles from "@/components/shell.module.css";
 
+=======
+import { useEffect, useState } from "react";
+import styles from "@/components/shell.module.css";
+>>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
 import {
   HeartIcon,
   HomeIcon,
@@ -30,7 +35,11 @@ const NAV = [
 
 /* --- Icons --- */
 
+<<<<<<< HEAD
 function ShieldIcon({ width = 22, height = 22 }: { width?: number; height?: number }) {
+=======
+function ShieldIcon({ width = 22, height = 22 }) {
+>>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
   return (
     <svg
       width={width}
@@ -48,7 +57,11 @@ function ShieldIcon({ width = 22, height = 22 }: { width?: number; height?: numb
   );
 }
 
+<<<<<<< HEAD
 function LogoutIcon({ width = 22, height = 22 }: { width?: number; height?: number }) {
+=======
+function LogoutIcon({ width = 22, height = 22 }) {
+>>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
   return (
     <svg
       width={width}
@@ -70,8 +83,11 @@ function LogoutIcon({ width = 22, height = 22 }: { width?: number; height?: numb
 export default function SidebarNav() {
   const path = usePathname();
   const router = useRouter();
+<<<<<<< HEAD
 
   const [role, setRole] = useState<string>("caregiver");
+=======
+>>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -85,10 +101,14 @@ export default function SidebarNav() {
       if (error || !mounted) return;
 
       const row = (Array.isArray(data) ? data[0] : null) as ProfileRow | null;
+<<<<<<< HEAD
       const nextRole = row?.role ?? "caregiver";
 
       setRole(nextRole);
       setIsAdmin(nextRole === "admin" && row?.is_active === true);
+=======
+      setIsAdmin(!!row && row.role === "admin" && row.is_active === true);
+>>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
     }
 
     loadProfile();
@@ -97,6 +117,7 @@ export default function SidebarNav() {
     };
   }, []);
 
+<<<<<<< HEAD
   const visibleNav = useMemo(() => {
     return NAV.filter((n) => {
       // Caregivers can NOT access caregiver management
@@ -112,6 +133,11 @@ export default function SidebarNav() {
     await supabase.auth.signOut();
     router.replace("/login");
     router.refresh();
+=======
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.replace("/login");
+>>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
   }
 
   return (
@@ -122,10 +148,16 @@ export default function SidebarNav() {
       </div>
 
       {/* Main nav */}
+<<<<<<< HEAD
       {visibleNav.map((n) => {
         const active = path === n.href;
         const Icon = n.icon;
 
+=======
+      {NAV.map((n) => {
+        const active = path === n.href;
+        const Icon = n.icon;
+>>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
         return (
           <Link
             key={n.href}
@@ -139,6 +171,7 @@ export default function SidebarNav() {
         );
       })}
 
+<<<<<<< HEAD
       {/* Logout — directly under Daily Logs */}
       <button
         type="button"
@@ -163,6 +196,35 @@ export default function SidebarNav() {
       )}
 
       {/* Spacer to keep original vertical rhythm */}
+=======
+      {/* Admin section */}
+      {isAdmin && (
+        <>
+          <Link
+            href="/admin/users"
+            className={`${styles.navbtn} ${
+              path === "/admin/users" ? styles.navbtnActive : ""
+            }`}
+            aria-label="Admin Users"
+            title="Admin Users"
+          >
+            <ShieldIcon />
+          </Link>
+
+          {/* Logout button — directly under shield */}
+          <button
+            type="button"
+            onClick={handleLogout}
+            className={styles.navbtn}
+            aria-label="Log out"
+            title="Log out"
+          >
+            <LogoutIcon />
+          </button>
+        </>
+      )}
+
+>>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
       <div style={{ flex: 1 }} />
 
       {/* Scroll to top */}
