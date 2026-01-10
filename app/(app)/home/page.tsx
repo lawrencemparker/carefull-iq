@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client";
 
 import { RequireAuth } from "../../components/RequireAuth";
@@ -36,13 +35,6 @@ export default function HomePage() {
     };
   }, []);
 
-=======
-import { RequireAuth } from "../../components/RequireAuth";
-import Link from "next/link";
-import React from "react";
-
-export default function HomePage() {
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
   return (
     <RequireAuth>
       <div style={{ padding: 24, maxWidth: 900 }}>
@@ -61,7 +53,6 @@ export default function HomePage() {
           </p>
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginTop: 14 }}>
-<<<<<<< HEAD
             {isAdmin && (
               <Link href="/caregivers" style={btn()}>
                 Add Caregivers
@@ -76,17 +67,6 @@ export default function HomePage() {
               Daily Log
             </Link>
 
-=======
-            <Link href="/caregivers" style={btn()}>
-              Add Caregivers
-            </Link>
-            <Link href="/clients" style={btn()}>
-              Add Clients
-            </Link>
-            <Link href="/daily-log" style={btn()}>
-              Daily Log
-            </Link>
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
             <Link href="/logs" style={btnSecondary()}>
               View Daily Logs
             </Link>

@@ -1,10 +1,6 @@
 "use client";
 
-<<<<<<< HEAD
 import React, { useEffect, useMemo, useState } from "react";
-=======
-import { useMemo, useState } from "react";
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
 import { useRouter } from "next/navigation";
 import { supabase } from "../lib/supabaseClient";
 
@@ -15,15 +11,12 @@ export default function LoginPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-<<<<<<< HEAD
   // Force login page to always render in light mode
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", "light");
     document.body.setAttribute("data-theme", "light");
   }, []);
 
-=======
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
   const canSubmit = useMemo(() => {
     return email.trim().length > 3 && password.trim().length > 0 && !busy;
   }, [email, password, busy]);
@@ -51,14 +44,7 @@ export default function LoginPage() {
   }
 
   return (
-<<<<<<< HEAD
-    <main
-      className="min-h-screen"
-      style={{ display: "grid", placeItems: "center", padding: 16 }}
-    >
-=======
     <main className="min-h-screen" style={{ display: "grid", placeItems: "center", padding: 16 }}>
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
       <div
         className="card strong"
         style={{
@@ -66,30 +52,20 @@ export default function LoginPage() {
           padding: 22,
         }}
       >
-<<<<<<< HEAD
         <p className="section-title" style={{ marginBottom: 6 }}>
           CareFull IQ
         </p>
-        <h1 style={{ margin: 0, fontSize: 22, letterSpacing: "-0.01em" }}>
-          Sign in
-        </h1>
-=======
-        <p className="section-title" style={{ marginBottom: 6 }}>CareFull IQ</p>
         <h1 style={{ margin: 0, fontSize: 22, letterSpacing: "-0.01em" }}>Sign in</h1>
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
+
         <p className="muted" style={{ marginTop: 8, marginBottom: 16 }}>
           Use your admin email and password to access your family workspace.
         </p>
 
         <form onSubmit={onSubmit} style={{ display: "grid", gap: 12 }}>
           <label>
-<<<<<<< HEAD
             <span className="muted" style={{ fontSize: 13, fontWeight: 700 }}>
               Email
             </span>
-=======
-            <span className="muted" style={{ fontSize: 13, fontWeight: 700 }}>Email</span>
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
             <input
               type="email"
               value={email}
@@ -100,13 +76,9 @@ export default function LoginPage() {
           </label>
 
           <label>
-<<<<<<< HEAD
             <span className="muted" style={{ fontSize: 13, fontWeight: 700 }}>
               Password
             </span>
-=======
-            <span className="muted" style={{ fontSize: 13, fontWeight: 700 }}>Password</span>
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
             <input
               type="password"
               value={password}

@@ -1,248 +1,188 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-<<<<<<< HEAD
-import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 import styles from "@/components/shell.module.css";
 
-=======
-import { useEffect, useState } from "react";
-import styles from "@/components/shell.module.css";
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
-import {
-  HeartIcon,
-  HomeIcon,
-  CaregiversIcon,
-  ClientsIcon,
-  ClipboardIcon,
-  ListIcon,
-} from "@/components/icons";
-import { supabase } from "@/app/lib/supabaseClient";
-
-type ProfileRow = {
-  role: string;
-  is_active: boolean;
+type NavItem = {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
 };
 
-const NAV = [
-  { href: "/home", label: "Dashboard", icon: HomeIcon },
-  { href: "/caregivers", label: "Caregivers", icon: CaregiversIcon },
-  { href: "/clients", label: "Clients", icon: ClientsIcon },
-  { href: "/daily-log", label: "Daily Log", icon: ClipboardIcon },
-  { href: "/logs", label: "Daily Logs", icon: ListIcon },
-];
-
-/* --- Icons --- */
-
-<<<<<<< HEAD
-function ShieldIcon({ width = 22, height = 22 }: { width?: number; height?: number }) {
-=======
-function ShieldIcon({ width = 22, height = 22 }) {
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
-  return (
-    <svg
-      width={width}
-      height={height}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4z" />
-      <path d="M9 12l2 2 4-4" />
-    </svg>
-  );
-}
-
-<<<<<<< HEAD
-function LogoutIcon({ width = 22, height = 22 }: { width?: number; height?: number }) {
-=======
-function LogoutIcon({ width = 22, height = 22 }) {
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
-  return (
-    <svg
-      width={width}
-      height={height}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-      <path d="M16 17l5-5-5-5" />
-      <path d="M21 12H9" />
-    </svg>
-  );
-}
-
 export default function SidebarNav() {
-  const path = usePathname();
-  const router = useRouter();
-<<<<<<< HEAD
+  const pathname = usePathname();
 
-  const [role, setRole] = useState<string>("caregiver");
-=======
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    let mounted = true;
-
-    async function loadProfile() {
-      const { data: session } = await supabase.auth.getSession();
-      if (!session.session) return;
-
-      const { data, error } = await supabase.rpc("current_profile");
-      if (error || !mounted) return;
-
-      const row = (Array.isArray(data) ? data[0] : null) as ProfileRow | null;
-<<<<<<< HEAD
-      const nextRole = row?.role ?? "caregiver";
-
-      setRole(nextRole);
-      setIsAdmin(nextRole === "admin" && row?.is_active === true);
-=======
-      setIsAdmin(!!row && row.role === "admin" && row.is_active === true);
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
-    }
-
-    loadProfile();
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-<<<<<<< HEAD
-  const visibleNav = useMemo(() => {
-    return NAV.filter((n) => {
-      // Caregivers can NOT access caregiver management
-      if (role !== "admin" && n.href === "/caregivers") return false;
-      return true;
-    });
-  }, [role]);
-
-  async function handleLogout() {
-    document.documentElement.setAttribute("data-theme", "light");
-    document.body.setAttribute("data-theme", "light");
-
-    await supabase.auth.signOut();
-    router.replace("/login");
-    router.refresh();
-=======
-  async function handleLogout() {
-    await supabase.auth.signOut();
-    router.replace("/login");
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
-  }
+  const items: NavItem[] = useMemo(
+    () => [
+      { href: "/home", label: "Home", icon: <HomeIcon /> },
+      { href: "/clients", label: "Clients", icon: <UsersIcon /> },
+      { href: "/caregivers", label: "Caregivers", icon: <ShieldIcon /> },
+      { href: "/daily-log", label: "Daily Log", icon: <PencilIcon /> },
+      { href: "/logs", label: "Logs", icon: <ListIcon /> },
+    ],
+    []
+  );
 
   return (
-    <>
-      {/* Brand */}
-      <div className={styles.brandDot} title="CareFull IQ">
-        <HeartIcon width={26} height={26} />
+    <nav
+      className={styles.sidebar}
+      style={{
+        width: 260,
+        padding: 16,
+        borderRight: "1px solid rgba(15,23,42,0.10)",
+        minHeight: "100vh",
+        background: "var(--cf-card)",
+      }}
+    >
+      <div style={{ marginBottom: 14 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <div
+            aria-hidden
+            style={{
+              width: 38,
+              height: 38,
+              borderRadius: 14,
+              display: "grid",
+              placeItems: "center",
+              background: "linear-gradient(135deg, #1e7dd7, #5fb4ff)",
+              boxShadow: "0 16px 30px rgba(30,125,215,0.22)",
+              color: "white",
+              fontWeight: 900,
+            }}
+          >
+            CF
+          </div>
+
+          <div>
+            <div style={{ fontWeight: 900, letterSpacing: "-0.01em" }}>CareFull IQ</div>
+            <div style={{ fontSize: 12, opacity: 0.7 }}>Dashboard</div>
+          </div>
+        </div>
       </div>
 
-      {/* Main nav */}
-<<<<<<< HEAD
-      {visibleNav.map((n) => {
-        const active = path === n.href;
-        const Icon = n.icon;
+      <div style={{ display: "grid", gap: 8 }}>
+        {items.map((item) => {
+          const active =
+            pathname === item.href ||
+            (item.href !== "/home" && pathname?.startsWith(item.href));
 
-=======
-      {NAV.map((n) => {
-        const active = path === n.href;
-        const Icon = n.icon;
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
-        return (
-          <Link
-            key={n.href}
-            href={n.href}
-            className={`${styles.navbtn} ${active ? styles.navbtnActive : ""}`}
-            aria-label={n.label}
-            title={n.label}
-          >
-            <Icon width={22} height={22} />
-          </Link>
-        );
-      })}
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={styles.sidebarLink}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                padding: "10px 12px",
+                borderRadius: 14,
+                textDecoration: "none",
+                fontWeight: 800,
+                color: "var(--cf-text)",
+                background: active ? "rgba(30,125,215,0.12)" : "transparent",
+                border: active ? "1px solid rgba(30,125,215,0.25)" : "1px solid transparent",
+              }}
+            >
+              <span style={{ width: 22, height: 22, display: "inline-flex" }}>{item.icon}</span>
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
+      </div>
 
-<<<<<<< HEAD
-      {/* Logout — directly under Daily Logs */}
-      <button
-        type="button"
-        onClick={handleLogout}
-        className={styles.navbtn}
-        aria-label="Log out"
-        title="Log out"
-      >
-        <LogoutIcon />
-      </button>
+      <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid rgba(15,23,42,0.10)" }}>
+        <p style={{ margin: 0, fontSize: 12, opacity: 0.7 }}>
+          Tip: Use the top right button to sign out.
+        </p>
+      </div>
+    </nav>
+  );
+}
 
-      {/* Admin section */}
-      {isAdmin && (
-        <Link
-          href="/admin/users"
-          className={`${styles.navbtn} ${path === "/admin/users" ? styles.navbtnActive : ""}`}
-          aria-label="Admin Users"
-          title="Admin Users"
-        >
-          <ShieldIcon />
-        </Link>
-      )}
+/* --- Icons (simple inline SVGs) --- */
 
-      {/* Spacer to keep original vertical rhythm */}
-=======
-      {/* Admin section */}
-      {isAdmin && (
-        <>
-          <Link
-            href="/admin/users"
-            className={`${styles.navbtn} ${
-              path === "/admin/users" ? styles.navbtnActive : ""
-            }`}
-            aria-label="Admin Users"
-            title="Admin Users"
-          >
-            <ShieldIcon />
-          </Link>
+function ShieldIcon({ width = 22, height = 22 }: { width?: number; height?: number }) {
+  return (
+    <svg width={width} height={height} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M12 2l8 4v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6l8-4z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 12l2 2 4-5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
-          {/* Logout button — directly under shield */}
-          <button
-            type="button"
-            onClick={handleLogout}
-            className={styles.navbtn}
-            aria-label="Log out"
-            title="Log out"
-          >
-            <LogoutIcon />
-          </button>
-        </>
-      )}
+function HomeIcon({ width = 22, height = 22 }: { width?: number; height?: number }) {
+  return (
+    <svg width={width} height={height} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1V11z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
->>>>>>> 1a5b0c886bb07452708faac7e56ec803031c4f3d
-      <div style={{ flex: 1 }} />
+function UsersIcon({ width = 22, height = 22 }: { width?: number; height?: number }) {
+  return (
+    <svg width={width} height={height} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M16 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path
+        d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
 
-      {/* Scroll to top */}
-      <a
-        href="#top"
-        className={styles.navbtn}
-        aria-label="Scroll to top"
-        title="Top"
-        onClick={(e) => {
-          e.preventDefault();
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      >
-        <svg viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 19V5" />
-          <path d="M5 12l7-7 7 7" />
-        </svg>
-      </a>
-    </>
+function PencilIcon({ width = 22, height = 22 }: { width?: number; height?: number }) {
+  return (
+    <svg width={width} height={height} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M12 20h9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4 11.5-11.5z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ListIcon({ width = 22, height = 22 }: { width?: number; height?: number }) {
+  return (
+    <svg width={width} height={height} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path d="M8 6h13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M8 12h13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M8 18h13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M3 6h1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M3 12h1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M3 18h1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
   );
 }
